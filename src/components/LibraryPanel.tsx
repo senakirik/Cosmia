@@ -50,8 +50,6 @@ export default function LibraryPanel({
 
   return (
     <aside className={`${styles.panel} ${open ? styles.open : styles.closed}`} aria-label="Library panel">
-      <div className={styles.gridBg} />
-
       {/* ── Header ── */}
       <div className={styles.header}>
         <Wordmark />
