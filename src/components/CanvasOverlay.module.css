@@ -1,0 +1,122 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+/* Re-enable pointer events on every direct child so clicks work */
+.overlay > * { pointer-events: auto; }
+
+/* ── Shared cluster positions ── */
+.topRightCluster {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+}
+
+/* ── Collapsed-library elements ── */
+.topStrip {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topStripDivider {
+  position: absolute;
+  top: 80px;
+  left: 32px;
+  right: 32px;
+  height: 1px;
+  background: var(--hair);
+  pointer-events: none;
+}
+
+.canvasTitle {
+  position: absolute;
+  top: 100px;
+  left: 32px;
+  max-width: 640px;
+}
+
+.heroText {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 70%;
+  font-size: 96px;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: var(--fg);
+}
+
+.canvasFft {
+  position: absolute;
+  top: 100px;
+  right: 32px;
+  width: 220px;
+}
+
+.centerGlyph {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centerSubTop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(-150px);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  color: var(--fg-mute);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.libTabWrap {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+}
+
+.playerWrap {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(780px, 60vw);
+}
+
+.playerHeader {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin-bottom: 12px;
+}
+
+.copyWrap {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+}
+
+/* ── Open-library elements ── */
+.visLabel {
+  position: absolute;
+  bottom: 32px;
+  right: 40px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  pointer-events: none;
+}

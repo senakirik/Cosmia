@@ -1,0 +1,115 @@
+.panel {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 420px;
+  background: linear-gradient(90deg, rgba(10,10,12,0.92), rgba(10,10,12,0.62));
+  backdrop-filter: blur(16px);
+  border-right: 1px solid var(--hair);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  transition: transform 0.45s cubic-bezier(.22,.7,.2,1), opacity 0.3s;
+  overflow: hidden;
+}
+
+.open  { transform: translateX(0);     opacity: 1; pointer-events: auto; }
+.closed { transform: translateX(-100%); opacity: 0; pointer-events: none; }
+
+/* Hairline grid masked to bleed from left edge */
+.gridBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(244,242,236,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(244,242,236,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(90deg, black 60%, transparent);
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 28px 0;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.collapseBtn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--fg-faint);
+  background: rgba(10,10,12,0.5);
+  color: var(--fg-dim);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  padding: 0;
+  font: inherit;
+  flex-shrink: 0;
+}
+.collapseBtn:hover { border-color: var(--fg); color: var(--fg); }
+
+/* ── Now-playing / Standby block ── */
+.current {
+  padding: 36px 28px 24px;
+  position: relative;
+  z-index: 2;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.nowTitle {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 75%;
+  font-size: 56px;
+  letter-spacing: -0.025em;
+  line-height: 0.92;
+}
+
+/* ── Add audio button wrapper ── */
+.addWrap {
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+
+/* ── Divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 28px 28px 14px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: var(--fg-mute);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.dividerLine { flex: 1; height: 1px; background: var(--hair); }
+
+/* ── Scrollable track list ── */
+.tracks {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 12px;
+  scrollbar-width: none;
+  position: relative;
+  z-index: 2;
+}
+.tracks::-webkit-scrollbar { display: none; }
+
+/* ── Footer ── */
+.footer {
+  padding: 16px 28px 24px;
+  border-top: 1px solid var(--hair);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
