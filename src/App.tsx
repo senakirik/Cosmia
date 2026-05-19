@@ -149,11 +149,18 @@ function CosmiaApp() {
       tmp.src = url
     })
 
-    // Parse "Artist - Title" from filename
+    // Parse and clean filename: strip extension → dashes/underscores → trailing digits → title-case
+    const clean = (s: string) =>
+      s.replace(/[-_]+/g, ' ')        // dashes/underscores → spaces
+       .replace(/\s+\d{4,}\s*$/, '')  // trailing digit-runs (IDs like 513718)
+       .replace(/\s+/g, ' ')
+       .trim()
+       .replace(/\b\w/g, c => c.toUpperCase())
+
     const base   = file.name.replace(/\.[^.]+$/, '')
     const parts  = base.split(' - ')
-    const artist = (parts.length >= 2 ? parts[0]              : 'Unknown').trim()
-    const name   = (parts.length >= 2 ? parts.slice(1).join(' - ') : base).trim()
+    const artist = parts.length >= 2 ? clean(parts[0])                    : 'Unknown'
+    const name   = parts.length >= 2 ? clean(parts.slice(1).join(' - ')) : clean(base)
     const year   = String(new Date().getFullYear())
 
     await dbSaveTrack({ name, artist, tag: 'USER', year, dur, blob: file })
