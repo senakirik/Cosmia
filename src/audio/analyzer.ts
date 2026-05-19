@@ -28,7 +28,7 @@ export interface AudioAnalysis {
 }
 
 export interface AudioAnalyzerAPI {
-  ensureContext: () => void
+  ensureContext: () => Promise<void>
   analysis:      AudioAnalysis
   fftBands:      FFTBand[] | null   // for FFTReadout chrome (untouched)
 }
@@ -57,8 +57,11 @@ export function useAudioAnalysis(
   const [fftBands, setFftBands] = useState<FFTBand[] | null>(null)
 
   // ── Create AudioContext on first user gesture ─────────────────────────────
-  const ensureContext = useCallback(() => {
-    if (ctxRef.current) { ctxRef.current.resume().catch(() => {}); return }
+  const ensureContext = useCallback(async () => {
+    if (ctxRef.current) {
+      await ctxRef.current.resume().catch(() => {})
+      return
+    }
     const audio = audioRef.current
     if (!audio) return
 

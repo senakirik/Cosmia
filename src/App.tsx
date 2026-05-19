@@ -25,8 +25,9 @@ function CosmiaApp() {
   const [dragOver,     setDragOver]     = useState(false)
   const [hasRealAudio, setHasRealAudio] = useState(false)
 
-  const audioRef     = useRef<HTMLAudioElement>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const audioRef       = useRef<HTMLAudioElement>(null)
+  const fileInputRef   = useRef<HTMLInputElement>(null)
+  const playPromiseRef = useRef<Promise<void> | null>(null)
 
   // Refs so event-listener closures never capture stale state
   const idxRef      = useRef(currentIdx)
@@ -63,6 +64,7 @@ function CosmiaApp() {
     if (currentIdx === null) { audio.src = ''; setHasRealAudio(false); return }
     const track = tracks[currentIdx]
     if (track?.src) {
+      playPromiseRef.current = null   // discard any in-flight promise from the previous track
       audio.src = track.src
       audio.currentTime = 0
       audio.load()
@@ -79,12 +81,25 @@ function CosmiaApp() {
     const audio = audioRef.current
     if (!audio || !hasRealAudio) return
     if (playing) {
-      ensureContext()
-      audio.play().catch(() => {})
+      // Wait for AudioContext to be running before calling play(),
+      // then track the play() promise so pause() never interrupts it mid-flight.
+      playPromiseRef.current = ensureContext().then(() => {
+        const p = audio.play()
+        playPromiseRef.current = p
+        return p
+      }).catch(() => { setPlaying(false) })
     } else {
-      audio.pause()
+      // If play() is still pending, wait for it to resolve before pausing —
+      // calling pause() on a pending play() throws an AbortError.
+      const pending = playPromiseRef.current
+      if (pending) {
+        pending.then(() => audio.pause()).catch(() => {})
+      } else {
+        audio.pause()
+      }
+      playPromiseRef.current = null
     }
-  }, [playing, hasRealAudio, ensureContext])
+  }, [playing, hasRealAudio, ensureContext, currentIdx])
 
   // ── timeupdate + ended ─────────────────────────────────────────────────
   useEffect(() => {
@@ -152,7 +167,7 @@ function CosmiaApp() {
     // Parse and clean filename: strip extension → dashes/underscores → trailing digits → title-case
     const clean = (s: string) =>
       s.replace(/[-_]+/g, ' ')        // dashes/underscores → spaces
-       .replace(/\s+\d{4,}\s*$/, '')  // trailing digit-runs (IDs like 513718)
+       .replace(/(\s+\d+)+$/, '')      // trailing digit-runs (IDs like 513718)
        .replace(/\s+/g, ' ')
        .trim()
        .replace(/\b\w/g, c => c.toUpperCase())

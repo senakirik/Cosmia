@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import type { Track } from '../types'
 import { fmtTime, parseDur } from '../utils/time'
 import Wordmark from './Wordmark'
@@ -32,6 +33,17 @@ export default function LibraryPanel({
   open, tracks, currentIdx, playing, progress, dragOver,
   onCollapse, onSelectTrack, onTogglePlay, onSeek, onAdd,
 }: Props) {
+  const tracksRef = useRef<HTMLDivElement>(null)
+
+  // Scroll the active track into view whenever selection changes
+  useEffect(() => {
+    if (currentIdx === null) return
+    const container = tracksRef.current
+    if (!container) return
+    const rows = container.querySelectorAll('button')
+    rows[currentIdx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [currentIdx])
+
   const current = currentIdx !== null ? tracks[currentIdx] : null
   const totalSec = current ? parseDur(current.dur) : 0
   const elapsed = fmtTime(totalSec * progress)
@@ -102,7 +114,7 @@ export default function LibraryPanel({
       </div>
 
       {/* ── Track list ── */}
-      <div className={styles.tracks}>
+      <div className={styles.tracks} ref={tracksRef}>
         {tracks.map((t, i) => (
           <TrackRow
             key={t.num}

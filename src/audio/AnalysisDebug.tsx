@@ -41,6 +41,7 @@ export function AnalysisDebug({ bass, mids, treble, beat }: AudioAnalysis) {
         lineHeight:      1.9,
         letterSpacing:   '0.06em',
         color:           body,
+        whiteSpace:      'pre',
         pointerEvents:   'none',
         userSelect:      'none',
         transition:      'border-color 0.06s ease',

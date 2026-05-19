@@ -93,9 +93,8 @@ export default function ParticleField({
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false })
     renderer.setPixelRatio(dpr)
     renderer.setSize(W, H, false)
-    renderer.setClearColor(0x0a0a0c)
-    renderer.toneMapping         = THREE.ReinhardToneMapping
-    renderer.toneMappingExposure = 1.5
+    renderer.setClearColor(0x000000, 1)   // pure black, no alpha
+    renderer.toneMapping = THREE.NoToneMapping  // no tone-map lift on near-black pixels
 
     const scene  = new THREE.Scene()
     const camera = new THREE.OrthographicCamera(-W/2, W/2, H/2, -H/2, 0.1, 1000)
@@ -104,7 +103,7 @@ export default function ParticleField({
     // ── Post-processing ───────────────────────────────────────────────────
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
-    composer.addPass(new UnrealBloomPass(new THREE.Vector2(W * dpr, H * dpr), 2.0, 0.7, 0.05))
+    composer.addPass(new UnrealBloomPass(new THREE.Vector2(W * dpr, H * dpr), 2.0, 0.4, 0.4))
     composer.addPass(new OutputPass())
 
     // ── Particle group (rotates with bass) ────────────────────────────────
