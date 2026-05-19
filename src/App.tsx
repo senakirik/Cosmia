@@ -7,7 +7,8 @@ import Dropzone from './components/Dropzone'
 import ComponentsSheet from './pages/ComponentsSheet'
 import { SAMPLE_TRACKS } from './data/tracks'
 import { parseDur } from './utils/time'
-import { useAudioEngine } from './hooks/useAudioEngine'
+import { useAudioAnalysis } from './audio/analyzer'
+import { AnalysisDebug } from './audio/AnalysisDebug'
 import { dbSaveTrack, dbLoadAllTracks } from './utils/indexedDB'
 import type { Track } from './types'
 
@@ -33,7 +34,7 @@ function CosmiaApp() {
   useEffect(() => { idxRef.current      = currentIdx }, [currentIdx])
   useEffect(() => { progressRef.current = progress   }, [progress])
 
-  const { ensureContext, fftBands, audioData } = useAudioEngine(audioRef)
+  const { ensureContext, analysis, fftBands } = useAudioAnalysis(audioRef)
 
   const currentTrack = currentIdx !== null ? tracks[currentIdx] : null
   const particleMode = currentTrack && playing ? 'dense' : 'sparse'
@@ -273,7 +274,7 @@ function CosmiaApp() {
       <ParticleField
         mode={particleMode}
         seed={currentIdx !== null ? (currentIdx + 1) * 3 : 2}
-        audioData={hasRealAudio ? audioData : null}
+        audioData={hasRealAudio ? analysis : null}
       />
 
       {/* Layer 10 — canvas overlay UI */}
@@ -310,6 +311,9 @@ function CosmiaApp() {
 
       {/* Layer 100 — grain (always on top) */}
       <div className="grain" />
+
+      {/* Debug: audio analysis overlay — remove once rendering is verified */}
+      {hasRealAudio && <AnalysisDebug {...analysis} />}
     </div>
   )
 }
