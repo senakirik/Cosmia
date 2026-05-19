@@ -1,13 +1,23 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ParticleField from './components/ParticleField'
+import ComponentsSheet from './pages/ComponentsSheet'
+
+function Canvas() {
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: '#0A0A0C' }}>
+      <ParticleField mode="sparse" seed={2} />
+      <div className="grain" />
+    </div>
+  )
+}
 
 export default function App() {
   return (
-    <div style={{ position: 'fixed', inset: 0, background: '#0A0A0C' }}>
-      {/* Particle canvas — full bleed, z-index 0 */}
-      <ParticleField mode="sparse" seed={2} />
-
-      {/* Grain overlay — z-index 100 via CSS */}
-      <div className="grain" />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Canvas />} />
+        <Route path="/components" element={<ComponentsSheet />} />
+      </Routes>
+    </BrowserRouter>
   )
 }

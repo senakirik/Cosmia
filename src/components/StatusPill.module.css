@@ -1,0 +1,48 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 9px;
+  border: 1px solid var(--fg-faint);
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  background: rgba(10, 10, 12, 0.4);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fg-mute);
+  flex-shrink: 0;
+}
+
+/* ── State variants ── */
+.standby .led {
+  background: var(--fg-mute);
+}
+
+.analyzing .led {
+  background: #d6b34a;
+  animation: blink 1.2s infinite;
+}
+
+.playing {
+  color: var(--fg);
+  border-color: rgba(244, 242, 236, 0.18);
+}
+.playing .led {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-dim);
+  animation: pulse 1.6s infinite;
+}
+
+.paused .led {
+  background: var(--accent-dim);
+}

@@ -1,0 +1,42 @@
+.fft {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--fg-dim);
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+}
+
+.head {
+  color: var(--fg-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 6px;
+  font-size: 9px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 36px 32px 1fr;
+  gap: 8px;
+  font-variant-numeric: tabular-nums;
+  align-items: center;
+}
+
+.bar {
+  height: 2px;
+  background: var(--fg-faint);
+  position: relative;
+}
+
+.fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--fg);
+  transition: width 0.05s linear;
+}
+
+.hot .fill {
+  background: var(--accent);
+}

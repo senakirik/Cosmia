@@ -1,0 +1,61 @@
+.dropzone {
+  position: absolute;
+  inset: 32px;
+  border: 1px dashed var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+  background: rgba(10, 10, 12, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+}
+
+/* 28×28px accent corner brackets */
+.dropzone::before,
+.dropzone::after,
+.dropzone .br::before,
+.dropzone .br::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--accent);
+}
+.dropzone::before  { top: -1px;  left: -1px;  border-right: 0; border-bottom: 0; }
+.dropzone::after   { top: -1px;  right: -1px; border-left: 0;  border-bottom: 0; }
+.dropzone .br::before { bottom: -1px; left: -1px;  border-right: 0; border-top: 0; }
+.dropzone .br::after  { bottom: -1px; right: -1px; border-left: 0;  border-top: 0; }
+
+.title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 80px;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  color: var(--fg);
+  text-align: center;
+}
+
+.topLeft {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+
+.topRight {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
