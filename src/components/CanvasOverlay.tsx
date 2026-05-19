@@ -3,7 +3,7 @@ import { fmtTime, parseDur } from '../utils/time'
 import Wordmark from './Wordmark'
 import StatusPill from './StatusPill'
 import Telemetry from './Telemetry'
-import FFTReadout from './FFTReadout'
+import FFTReadout, { type FFTBand } from './FFTReadout'
 import Player from './Player'
 import LibTab from './LibTab'
 import AddAudio from './AddAudio'
@@ -13,10 +13,10 @@ import styles from './CanvasOverlay.module.css'
 interface Props {
   libOpen: boolean
   currentTrack: Track | null
-  currentIdx: number | null
   totalTracks: number
   playing: boolean
   progress: number
+  fftBands?: FFTBand[] | null
   onTogglePlay: () => void
   onSeek: (p: number) => void
   onOpenLib: () => void
@@ -25,7 +25,8 @@ interface Props {
 
 export default function CanvasOverlay({
   libOpen, currentTrack, totalTracks,
-  playing, progress, onTogglePlay, onSeek, onOpenLib, onAdd,
+  playing, progress, fftBands = null,
+  onTogglePlay, onSeek, onOpenLib, onAdd,
 }: Props) {
   const totalSec  = currentTrack ? parseDur(currentTrack.dur) : 0
   const elapsed   = fmtTime(totalSec * progress)
@@ -77,9 +78,9 @@ export default function CanvasOverlay({
                 </div>
               </div>
 
-              {/* FFT readout top-right */}
+              {/* FFT readout top-right — live when audio is wired, static fallback otherwise */}
               <div className={styles.canvasFft}>
-                <FFTReadout />
+                <FFTReadout bands={fftBands} />
               </div>
             </>
           )}
