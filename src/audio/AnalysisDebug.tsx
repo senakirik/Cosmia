@@ -12,7 +12,7 @@ function pct(value: number): string {
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
-export function AnalysisDebug({ bass, mids, treble, beat }: AudioAnalysis) {
+export function AnalysisDebug({ bass, mids, treble, beat, top = 100 }: AudioAnalysis & { top?: number }) {
   // Stretch a one-frame beat flag into a 160 ms visible flash
   const [flash, setFlash] = useState(false)
   useEffect(() => {
@@ -30,8 +30,8 @@ export function AnalysisDebug({ bass, mids, treble, beat }: AudioAnalysis) {
     <div
       style={{
         position:        'fixed',
-        top:             16,
-        right:           16,
+        top,
+        right:           32,
         zIndex:          200,
         background:      'rgba(10,10,12,0.88)',
         border:          `1px solid ${flash ? accent : 'rgba(244,242,236,0.10)'}`,

@@ -3,7 +3,6 @@ import { fmtTime, parseDur } from '../utils/time'
 import Wordmark from './Wordmark'
 import StatusPill from './StatusPill'
 import Telemetry from './Telemetry'
-import FFTReadout, { type FFTBand } from './FFTReadout'
 import Player from './Player'
 import LibTab from './LibTab'
 import AddAudio from './AddAudio'
@@ -16,7 +15,6 @@ interface Props {
   totalTracks: number
   playing: boolean
   progress: number
-  fftBands?: FFTBand[] | null
   onTogglePlay: () => void
   onSeek: (p: number) => void
   onOpenLib: () => void
@@ -31,7 +29,7 @@ const VIZ_LABEL: Record<'orbital' | 'organic', string> = {
 
 export default function CanvasOverlay({
   vizMode, libOpen, currentTrack, totalTracks,
-  playing, progress, fftBands = null,
+  playing, progress,
   onTogglePlay, onSeek, onOpenLib, onAdd, onVizMode,
 }: Props) {
   const totalSec  = currentTrack ? parseDur(currentTrack.dur) : 0
@@ -41,13 +39,6 @@ export default function CanvasOverlay({
 
   return (
     <div className={styles.overlay}>
-
-      {/* ── LIBRARY OPEN: telemetry top-right only ── */}
-      {libOpen && (
-        <div className={styles.topRightCluster}>
-          <Telemetry />
-        </div>
-      )}
 
       {/* ── Viz mode chips — always visible bottom-right ── */}
       <div className={styles.vizChips}>
@@ -92,10 +83,6 @@ export default function CanvasOverlay({
                 </div>
               </div>
 
-              {/* FFT readout top-right — live when audio is wired, static fallback otherwise */}
-              <div className={styles.canvasFft}>
-                <FFTReadout bands={fftBands} />
-              </div>
             </>
           )}
 

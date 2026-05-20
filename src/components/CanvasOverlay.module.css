@@ -52,13 +52,6 @@
   color: var(--fg);
 }
 
-.canvasFft {
-  position: absolute;
-  top: 76px;
-  right: 32px;
-  width: 220px;
-}
-
 .centerGlyph {
   position: absolute;
   top: 50%;

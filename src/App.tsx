@@ -36,7 +36,7 @@ function CosmiaApp() {
   useEffect(() => { idxRef.current      = currentIdx }, [currentIdx])
   useEffect(() => { progressRef.current = progress   }, [progress])
 
-  const { ensureContext, analysis, fftBands } = useAudioAnalysis(audioRef)
+  const { ensureContext, analysis } = useAudioAnalysis(audioRef)
 
   const currentTrack = currentIdx !== null ? tracks[currentIdx] : null
   const particleMode = currentTrack && playing ? 'dense' : 'sparse'
@@ -309,7 +309,6 @@ function CosmiaApp() {
         totalTracks={tracks.length}
         playing={playing}
         progress={progress}
-        fftBands={hasRealAudio ? fftBands : null}
         onTogglePlay={handleTogglePlay}
         onSeek={handleSeek}
         onOpenLib={() => setLibOpen(true)}
@@ -338,8 +337,8 @@ function CosmiaApp() {
       {/* Layer 100 — grain (always on top) */}
       <div className="grain" />
 
-      {/* Debug: audio analysis overlay — remove once rendering is verified */}
-      {hasRealAudio && <AnalysisDebug {...analysis} />}
+      {/* Audio analysis — top: 100 in collapsed view, top: 32 in expanded */}
+      {hasRealAudio && <AnalysisDebug {...analysis} top={libOpen ? 32 : 100} />}
     </div>
   )
 }
