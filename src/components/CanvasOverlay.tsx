@@ -66,7 +66,7 @@ export default function CanvasOverlay({
             ORGANIC FLOW
           </button>
         </div>
-        <div className={styles.vizChipLabel}>{visLabel}</div>
+        <div className={styles.vizChipLabel}>©2026 COSMIA · MADE BY SENA OZBAYRAM</div>
       </div>
 
       {/* ── LIBRARY CLOSED: all canvas UI ── */}

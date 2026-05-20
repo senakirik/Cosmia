@@ -94,11 +94,3 @@
 }
 .tracks::-webkit-scrollbar { display: none; }
 
-/* ── Footer ── */
-.footer {
-  padding: 16px 28px 24px;
-  border-top: 1px solid var(--hair);
-  position: relative;
-  z-index: 2;
-  flex-shrink: 0;
-}

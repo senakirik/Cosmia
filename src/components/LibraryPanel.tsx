@@ -5,7 +5,6 @@ import Wordmark from './Wordmark'
 import Player from './Player'
 import TrackRow from './TrackRow'
 import AddAudio from './AddAudio'
-import Brackets from './Brackets'
 import styles from './LibraryPanel.module.css'
 
 const ChevronLeft = () => (
@@ -117,14 +116,6 @@ export default function LibraryPanel({
         ))}
       </div>
 
-      {/* ── Footer ── */}
-      <div className={styles.footer}>
-        <Brackets style={{ display: 'inline-block', padding: '6px 10px' }}>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 8.5, color: 'var(--fg-mute)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-            © 2035 COSMIA · BUILD 4.21 · MADE BY SENA OZBAYRAM
-          </span>
-        </Brackets>
-      </div>
     </aside>
   )
 }
