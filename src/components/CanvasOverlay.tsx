@@ -7,7 +7,6 @@ import FFTReadout, { type FFTBand } from './FFTReadout'
 import Player from './Player'
 import LibTab from './LibTab'
 import AddAudio from './AddAudio'
-import Brackets from './Brackets'
 import styles from './CanvasOverlay.module.css'
 
 interface Props {
@@ -51,7 +50,7 @@ export default function CanvasOverlay({
       )}
 
       {/* ── Viz mode chips — always visible bottom-right ── */}
-      <div className={`${styles.vizChips} ${libOpen ? styles.vizChipsLibOpen : ''}`}>
+      <div className={styles.vizChips}>
         <div className={styles.vizChipRow}>
           <button
             className={`${styles.vizChip} ${vizMode === 'orbital' ? styles.vizChipActive : ''}`}
@@ -134,14 +133,6 @@ export default function CanvasOverlay({
             </div>
           )}
 
-          {/* Bottom-right: copyright */}
-          <div className={styles.copyWrap}>
-            <Brackets style={{ display: 'inline-block', padding: '6px 10px' }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 8.5, color: 'var(--fg-mute)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-                © 2035 COSMIA · ALL SIGNALS RESERVED
-              </span>
-            </Brackets>
-          </div>
         </>
       )}
 
