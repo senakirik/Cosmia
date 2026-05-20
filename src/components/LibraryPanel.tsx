@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import type { Track } from '../types'
 import { fmtTime, parseDur } from '../utils/time'
 import Wordmark from './Wordmark'
-import StatusPill from './StatusPill'
 import Player from './Player'
 import TrackRow from './TrackRow'
 import AddAudio from './AddAudio'
@@ -79,9 +78,6 @@ export default function LibraryPanel({
                 onSeek={onSeek}
               />
             </div>
-            <div style={{ marginTop: 18 }}>
-              <StatusPill state={playing ? 'playing' : 'paused'} />
-            </div>
           </>
         ) : (
           <>
@@ -91,9 +87,6 @@ export default function LibraryPanel({
             <div className={styles.nowTitle} style={{ color: 'var(--fg-dim)' }}>Standby</div>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--fg-mute)', marginTop: 10 }}>
               SELECT A TRACK OR DROP A FILE
-            </div>
-            <div style={{ marginTop: 22 }}>
-              <StatusPill state="standby" />
             </div>
           </>
         )}
@@ -128,7 +121,7 @@ export default function LibraryPanel({
       <div className={styles.footer}>
         <Brackets style={{ display: 'inline-block', padding: '6px 10px' }}>
           <span style={{ fontFamily: 'var(--mono)', fontSize: 8.5, color: 'var(--fg-mute)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-            © 2035 COSMIA · BUILD 4.21
+            © 2035 COSMIA · BUILD 4.21 · MADE BY SENA OZBAYRAM
           </span>
         </Brackets>
       </div>

@@ -11,6 +11,7 @@ import Brackets from './Brackets'
 import styles from './CanvasOverlay.module.css'
 
 interface Props {
+  vizMode: 'orbital' | 'organic'
   libOpen: boolean
   currentTrack: Track | null
   totalTracks: number
@@ -21,16 +22,23 @@ interface Props {
   onSeek: (p: number) => void
   onOpenLib: () => void
   onAdd: () => void
+  onVizMode: (m: 'orbital' | 'organic') => void
+}
+
+const VIZ_LABEL: Record<'orbital' | 'organic', string> = {
+  orbital: 'ORBITAL FIELD · v2.4',
+  organic: 'ORGANIC FLOW · v1.0',
 }
 
 export default function CanvasOverlay({
-  libOpen, currentTrack, totalTracks,
+  vizMode, libOpen, currentTrack, totalTracks,
   playing, progress, fftBands = null,
-  onTogglePlay, onSeek, onOpenLib, onAdd,
+  onTogglePlay, onSeek, onOpenLib, onAdd, onVizMode,
 }: Props) {
   const totalSec  = currentTrack ? parseDur(currentTrack.dur) : 0
   const elapsed   = fmtTime(totalSec * progress)
   const pillState = currentTrack ? (playing ? 'playing' : 'paused') : 'standby'
+  const visLabel  = VIZ_LABEL[vizMode]
 
   return (
     <div className={styles.overlay}>
@@ -42,17 +50,24 @@ export default function CanvasOverlay({
         </div>
       )}
 
-      {/* ── LIBRARY OPEN: vis label bottom-right ── */}
-      {libOpen && (
-        <div className={styles.visLabel}>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--fg-mute)', letterSpacing: '0.32em', textTransform: 'uppercase' }}>
-            VISUALIZATION
-          </span>
-          <span style={{ fontFamily: 'var(--display)', fontWeight: 700, fontStretch: '75%', fontSize: 16, color: 'var(--fg)', marginLeft: 14, letterSpacing: '-0.01em' }}>
-            ORBITAL FIELD · v2.4
-          </span>
+      {/* ── Viz mode chips — always visible bottom-right ── */}
+      <div className={`${styles.vizChips} ${libOpen ? styles.vizChipsLibOpen : ''}`}>
+        <div className={styles.vizChipRow}>
+          <button
+            className={`${styles.vizChip} ${vizMode === 'orbital' ? styles.vizChipActive : ''}`}
+            onClick={() => onVizMode('orbital')}
+          >
+            ORBITAL FIELD
+          </button>
+          <button
+            className={`${styles.vizChip} ${vizMode === 'organic' ? styles.vizChipActive : ''}`}
+            onClick={() => onVizMode('organic')}
+          >
+            ORGANIC FLOW
+          </button>
         </div>
-      )}
+        <div className={styles.vizChipLabel}>{visLabel}</div>
+      </div>
 
       {/* ── LIBRARY CLOSED: all canvas UI ── */}
       {!libOpen && (
@@ -105,7 +120,7 @@ export default function CanvasOverlay({
             <div className={styles.playerWrap}>
               <div className={styles.playerHeader}>
                 <span>OUTPUT · STEREO</span>
-                <span>VIS · ORBITAL FIELD v2.4</span>
+                <span>VIS · {visLabel}</span>
                 <span>GAIN -3.0 dB</span>
               </div>
               <Player

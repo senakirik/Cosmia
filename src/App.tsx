@@ -18,6 +18,7 @@ function ComponentsRoute() {
 
 function CosmiaApp() {
   const [libOpen,      setLibOpen]      = useState(true)
+  const [vizMode,      setVizMode]      = useState<'orbital' | 'organic'>('orbital')
   const [tracks,       setTracks]       = useState<Track[]>(SAMPLE_TRACKS)
   const [currentIdx,   setCurrentIdx]   = useState<number | null>(null)
   const [playing,      setPlaying]      = useState(false)
@@ -294,6 +295,7 @@ function CosmiaApp() {
 
       {/* Layer 0 — full-bleed particle canvas */}
       <ParticleField
+        vizMode={vizMode}
         mode={particleMode}
         seed={currentIdx !== null ? (currentIdx + 1) * 3 : 2}
         audioData={hasRealAudio ? analysis : null}
@@ -301,6 +303,7 @@ function CosmiaApp() {
 
       {/* Layer 10 — canvas overlay UI */}
       <CanvasOverlay
+        vizMode={vizMode}
         libOpen={libOpen}
         currentTrack={currentTrack}
         totalTracks={tracks.length}
@@ -311,6 +314,7 @@ function CosmiaApp() {
         onSeek={handleSeek}
         onOpenLib={() => setLibOpen(true)}
         onAdd={handleAdd}
+        onVizMode={setVizMode}
       />
 
       {/* Layer 20 — library panel (always in DOM, CSS slide) */}
