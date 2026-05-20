@@ -166,5 +166,6 @@
   text-transform: uppercase;
   color: var(--fg-mute);
   text-align: right;
+  white-space: nowrap;
   padding-right: 2px;
 }
